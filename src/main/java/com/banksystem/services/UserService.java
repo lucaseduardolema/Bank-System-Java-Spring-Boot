@@ -10,23 +10,24 @@ import java.math.BigDecimal;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserRepository repository;
+  @Autowired
+  private UserRepository repository;
 
-    public  void validateTransaction(User sender, BigDecimal amount) throws Exception {
-        if (sender.getUserType() == UserType.MERCHANT) {
-            throw new Exception("Usuário do tipo lojista não autorizado");        }
-
-        if (sender.getBalance().compareTo(amount) < 3) {
-            throw new Exception("Saldo insuficiente");
-        }
+  public void validateTransaction(User sender, BigDecimal amount) throws Exception {
+    if (sender.getUserType() == UserType.MERCHANT) {
+      throw new Exception("Usuário do tipo lojista não autorizado");
     }
 
-    public User findUserById(Long id) throws Exception {
-        return this.repository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
+    if (sender.getBalance().compareTo(amount) < 3) {
+      throw new Exception("Saldo insuficiente");
     }
+  }
 
-    public void saveUser(User user) {
-        this.repository.save(user);
-    }
+  public User findUserById(Long id) throws Exception {
+    return this.repository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
+  }
+
+  public void saveUser(User user) {
+    this.repository.save(user);
+  }
 }
